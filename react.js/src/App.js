@@ -5,5 +5,7 @@ function App() {
     <div style={{ backgroundColor: '#46B1DE' }} className="wrapper">
       <Hello></Hello>
       <button onClick={() => console.log('Click on button')}>Button</button>
-    </div>);}
+    </div>
+    );
+}
 export default App;
