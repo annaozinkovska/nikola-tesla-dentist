@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "test-1",
+			"path": "../../../test-1"
+		},
+		{
+			"name": "react.js",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
