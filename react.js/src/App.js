@@ -1,11 +1,18 @@
 import React from "react";
-import Hello from "./components/Hello.js";
+import Article from "./components/Article";
+
+
 function App() {
   return (
-    <div style={{ backgroundColor: '#46B1DE' }} className="wrapper">
-      <Hello></Hello>
-      <button onClick={() => console.log('Click on button')}>Button</button>
-    </div>
+    <div className="wrapper">
+      <h1 className="title">NVIDIA news</h1>
+      <div className="article">
+        <Article />
+        {/* <ArticleBody /> */}
+        {/* <ArticleActions /> */}
+        {/* <ArticleAuthor /> */}
+      </div>
+    </div> 
     );
-}
+  }
 export default App;
