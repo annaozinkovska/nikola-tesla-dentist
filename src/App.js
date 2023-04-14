@@ -1,85 +1,108 @@
-import React, {useState} from "react";
-import Product from "./components/Product";
+import React, { useState, useEffect } from "react";
 
-function App () {
-
-  const productsList = [
-  {name: 'Iphone', price: 800, id: 1},
-  {name: 'Watch', price: 100, id: 2},
-  ];
-  const [products, setProducts] = useState(productsList)
-  const [newProducts, setNewProducts] = useState({name: '', price: 0.01, id: 3})
-
-  const changeName = (e)=>{
-   setNewProducts((prev)=>({...prev, name: e.target.value}))
-  }
-
-  const changePrice = (e)=>{
-    setNewProducts((prev)=>({...prev, price: e.target.value}))
-  }
-  const checkName = () => {
-     if( newProducts.name.trim().length>1 &&
-    !newProducts.name.trim().match(/[0-9]/g))
-    {
-      return true;
-    } else {
-      setNewProducts({ name: '',
-       price: newProducts.price, id: uuid() });
-      return false;
-      }
-  }
-
-  // const addProducts = () => {
-  //   let key = Math.random();
-  //   setNewProducts((prev)=>({...prev, id: key}))
-  //   setProducts((prev) => ([...prev, newProducts]))
   
-  const checkPrice = () => {
-    if (Number(newProducts.price) > 0) {
-      return true;
-    } else {
-      setNewProducts({name: newProducts.name, price: '', id: uuid()});
-      return false;
+
+
+
+  function App () {
+    const [products, setProducts] = useState({
+      coffe:0,
+      sugar:0,
+    });
+
+
+
+    const [coffer, setCoffer] = useState(0);
+    const [sugarr, setSugarr] = useState(0);
+
+    const addCoffee = () => setProducts((prevState) => {
+      return {
+        ...prevState,
+        coffe: prevState.coffe + 1
       }
+    });
+    const addSugar = () => setProducts((prevState) => {
+          console.log(prevState);
+        return {
+          ...prevState,
+          sugar: prevState.sugar + 1
+      }
+    });
+    const removeCoffee = () => setProducts((prevState) => {
+      if (prevState.coffe > 0) {
+        return {
+          ...prevState,
+          coffe: prevState.coffe - 1
+        }
+      } else {
+        
+        return prevState;
+      }
+    });
+    const removeSugar = () => setProducts((prevState) => {
+      if (prevState.sugar > 0) {
+        return {
+          ...prevState,
+          sugar: prevState.sugar - 1
+        }
+      } else {
+        return prevState;
+      }
+    });
+
+
+
+const save = () => {
+  localStorage.setItem('coffe', products.coffe);
+  localStorage.setItem('sugar', products.sugar);
+}
+
+const clear = () => {
+    localStorage.removeItem('coffe');
+    localStorage.removeItem('sugar');
+    setProducts({
+      coffe: 0,
+      sugar: 0
+    });
   }
-  const addProducts = () => {
-    if (checkName() && checkPrice()) {
-      setProducts((prev) => ([...prev, newProducts]))
-      setNewProducts({name: '', price: '', id: uuid()});
-    } else {
-      setNewProducts({name: newProducts.name, price: newProducts.price, id: uuid()});
-      return ;
-    }}
+  useEffect(()=>{
+    if (localStorage.getItem('coffe')){
+      setProducts({
+        coffe: +localStorage.getItem('coffe'),
+        sugar: +localStorage.getItem('sugar')
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    setCoffer(products.coffe <= 1); 
+  }, [products.coffe])
+  useEffect(() => {
+    setSugarr(products.sugar <= 1); 
+  }, [products.sugar])
     
-  // }
-
-  const removeProduct = (id) => {
-    const newList =  products.filter(product => product.id !== id);
-    setProducts(newList);
-  }
-
-
 
 return (
-<div className="wrapper">
-  <div className="add">
-    <label>Product name</label>
-    <input onInput={changeName} type="text" />
-    <label>Product price</label>
-    <input onInput={changePrice} type="number" />
-    <button onClick={addProducts} type="button">Add</button>
-  </div>
-  <div className="list">
-    {products.map(product => <Product onRemove={
-      removeProduct} key={product.id} id={product.id} 
-    name={product.name} price={`${product.price} $`} />)}
-  </div>
-</div> 
-);
+  <div className="wrapper">
+    <div className="list">
+      <h1>Product list</h1>
+      <div className='product'>
+      <span>{`Coffe: ${products.coffe}`}</span>
+      <button onClick={addCoffee}>Add</button>
+      {!coffer && <button onClick={removeCoffee}>Remove</button>}
+        </div>
+        <div className='product'>
+        <span>{`Sugar: ${products.sugar}`}</span>
+          <button onClick={addSugar}>Add</button>
+          {!sugarr && <button onClick={removeSugar}>Remove</button>}
+        </div>
+      <div className='save'>
+          <button onClick={save}>SAVE</button>
+          <button onClick={clear}>CLEAR</button>
+        </div>
+    </div>
+  </div> 
+  );
+  }
 
-    }
 export default App;
-
-
-
-
