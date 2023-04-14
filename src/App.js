@@ -1,70 +1,85 @@
-import React, {Component} from "react";
-import ArticleBody from "./components/ArticleBody";
-import ArticleActions from "./components/ArticleActions";
-import Article from "./components/Article";
-import LangContext from "./components/lang_context";
-const EN = {
-  title: 'NVIDIA NEWS',
-  title_name: 'NVIDIA Accelerated AI on Azure',
-  description: 'Article description:',
-  description_text: 'NVIDIA on Azure is bringing AI, networking, and high-performance computing to the enterprise.',
-  btn_read: 'Read',
-  current_lang: 'EN'
-}
-const UA = {
-  title: 'НОВИНИ NVIDIA',
-  title_name: 'Прискорений штучний інтелект NVIDIA в Azure',
-  description: 'Опис статті:',
-  description_text: 'NVIDIA на Azure надає підприємствам можливості штучного інтелекту, мереж та високопродуктивних обчислень.',
-  btn_read: 'Читати',
-  current_lang: 'UA'
-}
+import React, {useState} from "react";
+import Product from "./components/Product";
 
-let langBtns;
-class App extends Component{
-  constructor(){
-    super()
-    this.state = {
-      lang: EN
-    };
+function App () {
+
+  const productsList = [
+  {name: 'Iphone', price: 800, id: 1},
+  {name: 'Watch', price: 100, id: 2},
+  ];
+  const [products, setProducts] = useState(productsList)
+  const [newProducts, setNewProducts] = useState({name: '', price: 0.01, id: 3})
+
+  const changeName = (e)=>{
+   setNewProducts((prev)=>({...prev, name: e.target.value}))
   }
 
-  componentDidMount(){
-  langBtns = document.querySelectorAll('.lang-btn');
-  langBtns[1].classList.add('active');
+  const changePrice = (e)=>{
+    setNewProducts((prev)=>({...prev, price: e.target.value}))
+  }
+  const checkName = () => {
+     if( newProducts.name.trim().length>1 &&
+    !newProducts.name.trim().match(/[0-9]/g))
+    {
+      return true;
+    } else {
+      setNewProducts({ name: '',
+       price: newProducts.price, id: uuid() });
+      return false;
+      }
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevState.lang !== this.state.lang){
-    langBtns.forEach(btn => btn.classList.remove('active'));
-    this.state.lang.current_lang === 'UA' ? langBtns[0].classList.add('active')
-                                          : langBtns[1].classList.add('active') 
+  // const addProducts = () => {
+  //   let key = Math.random();
+  //   setNewProducts((prev)=>({...prev, id: key}))
+  //   setProducts((prev) => ([...prev, newProducts]))
+  
+  const checkPrice = () => {
+    if (Number(newProducts.price) > 0) {
+      return true;
+    } else {
+      setNewProducts({name: newProducts.name, price: '', id: uuid()});
+      return false;
+      }
+  }
+  const addProducts = () => {
+    if (checkName() && checkPrice()) {
+      setProducts((prev) => ([...prev, newProducts]))
+      setNewProducts({name: '', price: '', id: uuid()});
+    } else {
+      setNewProducts({name: newProducts.name, price: newProducts.price, id: uuid()});
+      return ;
+    }}
+    
+  // }
+
+  const removeProduct = (id) => {
+    const newList =  products.filter(product => product.id !== id);
+    setProducts(newList);
+  }
+
+
+
+return (
+<div className="wrapper">
+  <div className="add">
+    <label>Product name</label>
+    <input onInput={changeName} type="text" />
+    <label>Product price</label>
+    <input onInput={changePrice} type="number" />
+    <button onClick={addProducts} type="button">Add</button>
+  </div>
+  <div className="list">
+    {products.map(product => <Product onRemove={
+      removeProduct} key={product.id} id={product.id} 
+    name={product.name} price={`${product.price} $`} />)}
+  </div>
+</div> 
+);
+
     }
-  } 
-
-  SetLangEN(){
-    this.setState({lang: EN})
-  }
-
-  SetLangUA(){
-    this.setState({lang: UA})
-  }
-
-  render(){
-    return (
-      <div className="wrapper">
-        <h1 className="title">NVIDIA news</h1>
-          <Article lang={this.state.lang}>
-          <div className="article__title">
-            <h2>NVIDIA Accelerated AI on Azure</h2>
-          </div> 
-          </Article>
-        <div className="lang">
-          <button onClick={this.SetLangUA.bind(this)} 
-          className="lang-btn">UA</button>
-          <button onClick={this.SetLangEN.bind(this)}
-           className="lang-btn">EN</button>
-        </div>
-      </div> )}}
-
 export default App;
+
+
+
+
