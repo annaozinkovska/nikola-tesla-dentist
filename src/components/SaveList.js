@@ -1,49 +1,46 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import {useDispatch, useSelector } from 'react-redux';
 
 const SaveList = () => {
-
   const dispatchFunc = useDispatch();
+
+  const coffeeValue = useSelector((state) => state.coffee);
+  const sugarValue = useSelector((state) => state.sugar);
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const coffee = useSelector((state) => state.coffee);
-  const sugar = useSelector((state) => state.sugar);
+  
+  const products = {
+    coffee: coffeeValue,
+    sugar: sugarValue,
+  };
 
-  const SaveItem = () => {
-    localStorage.setItem('coffee', coffee);
-    localStorage.setItem('sugar', sugar);
-  }
-
-  const ClearItem = () => {
-    // localStorage.removeItem('coffee', coffee);
-    // localStorage.removeItem('sugar', sugar);
-    dispatchFunc({ type: 'Clear' })
-  }
-  const UploadItem = () => {
-    if (localStorage.getItem('coffee')) {
-      dispatchFunc({type: 'Upload'})
+  useEffect(()=>{
+    if (localStorage.getItem('coffee')){
+      dispatchFunc({type: 'save', setCoffee: 
+      localStorage.getItem('coffee'), setSugar: localStorage.getItem('sugar')});
     }
-    
-    return
-  }
+  },[]);
 
+
+  const save = () => {
+  
+    localStorage.setItem('coffee', products.coffee);
+    localStorage.setItem('sugar', products.sugar);
+  };
+
+  const clear = () => {
+    localStorage.removeItem('coffee');
+    localStorage.removeItem('sugar');
+    dispatchFunc({type: 'clear'});
+  };
   return (
-    
-    <div className='save'>
-      <>
-        {isLoggedIn
-          ?
-          <p>You must be logged in to save the list.</p>
-          :
-          <>
-            <button onClick={SaveItem}>SAVE</button>
-            <button onClick={ClearItem} >CLEAR</button>
-            {localStorage.getItem('coffee') && <button onClick={UploadItem} >UPLOAD</button>}
-          </>
-        }
-      </>
-          
-      </div>
-  )
-}
+    <div className="save">
+      {!isLoggedIn && <p>You must be logged in to save the list.</p>}
+      {!isLoggedIn && <> 
+        <button onClick={save}>SAVE</button>
+        <button onClick={clear}>CLEAR</button> 
+      </>}
+    </div>
+  );
+};
 
 export default SaveList;

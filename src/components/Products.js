@@ -3,49 +3,48 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Products = () => {
 
-  const coffee = useSelector((state) => state.coffee)
-  const isLoggedIn = useSelector((state) => state.isLoggedIn)
-  const sugar = useSelector((state) => state.sugar)
+  const coffee = useSelector((state) => state.coffee);
+  const sugar = useSelector((state) => state.sugar);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
   const dispatchFunc = useDispatch();
 
-  const increment = () => {
-    dispatchFunc({ type: 'incrementCoffee' })
-  }
-  const decrement = () => {
-    dispatchFunc({ type: 'decrementCoffee' })
-  }
+  const incrementCoffee = () => {
+    dispatchFunc({ type: 'incrementCoffee' });
+  };
+  const decrementCoffee = () => {
+    dispatchFunc({ type: 'decrementCoffee' });
+  };
+  const increaseCoffee = () => {
+    dispatchFunc({ type: 'increaseCoffee', number: 10 });
+  };
 
-  const increase = () => {
-    dispatchFunc({ type: 'increase', number: 10 })
-  }
-  const increments = () => {
-    dispatchFunc({ type: 'incrementsugar' })
-  }
-  const decrements = () => {
-    dispatchFunc({ type: 'decrementsugar' })
-  }
-
-  const increases = () => {
-    dispatchFunc({ type: 'increases', number: 10 })
-  }
+  const incrementSugar = () => {
+    dispatchFunc({ type: 'incrementSugar' });
+  };
+  const decrementSugar = () => {
+    dispatchFunc({ type: 'decrementSugar' });
+  };
+  const increaseSugar = () => {
+    dispatchFunc({ type: 'increaseSugar', number: 10 });
+  };
 
   return (
     <>
-      <div className='product'>
+      <div className={'product'}>
         <span>{`Coffee: ${coffee}`}</span>
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button>
-        { isLoggedIn && <button onClick={increase}>+10</button>}
+        <button onClick={incrementCoffee}>+</button>
+        <button onClick={decrementCoffee}>-</button>
+        {isLoggedIn && <button onClick={increaseCoffee}>+10</button>}
       </div>
-      <div className='product'>
-        <span>{`Sugar: ${sugar} `}</span>
-        <button onClick={increments}>+</button>
-        <button onClick={decrements}>-</button>
-        { isLoggedIn && <button onClick={increases}>+10</button>}
+      <div className={'product'}>
+        <span>{`Sugar: ${sugar}`}</span>
+        <button onClick={incrementSugar}>+</button>
+        <button onClick={decrementSugar}>-</button>
+        {isLoggedIn && <button onClick={increaseSugar}>+10</button>}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;
