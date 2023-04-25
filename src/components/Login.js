@@ -1,48 +1,28 @@
 import React from 'react'
-import {Formik, Form, Field} from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Login = () => {
-
-  const validateName = (value) =>{
-  if(!value){
-    return 'Required'
+const LogIn = () => {
+  const dispatchFunc = useDispatch();
+  const isLoggedIn = useSelector((state)=> state.isLoggedIn)
+  const submit = (e) => {
+    e.preventDefault();
+    dispatchFunc({ type: 'logIn' })
   }
- }
-
-  const validateEmail = (value) =>{
-  if(!value){
-    return 'Required'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)){
-    return 'Invalid email address'
+  const unsubmit = (e) => {
+    e.preventDefault();
+    dispatchFunc({ type: 'logOut' })
   }
- }
-
   return (
-    <>
-    <h1>Login</h1>
-    <p>Subscribe to our updates</p>
-    <Formik
-      initialValues={{
-        name: '',
-        email: '',
-      }}
-      onSubmit={values => {console.log(values)}}
-      >
-        {({errors, touched}) => (
-          <Form autoComplete="off">
-            <label htmlFor="firstName">Name</label>
-            <Field id="firstName" name="name" validate={validateName} className={errors.name && touched.name ? "invalid" : ""} />
-            {errors.name && touched.name && <p>{errors.name}</p>}
-            <label htmlFor="email">Email</label>
-            <Field id="email" name="email" validate={validateEmail} className={errors.email && touched.email ? "invalid" : ""}  />
-            {errors.email && touched.email && <p>{errors.email}</p>}
-            <button type="submit">Sign in</button>
-          </Form>
-        )}
-      </Formik>
-  </>
-
+   <>
+    {!isLoggedIn 
+   ? <form onSubmit={submit} >
+      <label htmlFor="email">Email</label>
+      <input id="email" name="email"/>
+      <button type="submit">Log in</button></form>
+   : <form><button onSubmit ={unsubmit}>Log out</button></form>
+   }
+    </>
   )
 }
 
-export default Login
+export default LogIn

@@ -1,31 +1,20 @@
-// import logo from './logo.svg';
-import './App.css';
-import Main from './components/Main';
-import Login from './components/Login';
-import Post from './components/Post';
-import SinglePost from './components/SinglePost';
+import React from "react";
+import LogIn from "./components/LogIn";
+import Products from "./components/Products";
+import SaveList from "./components/SaveList";
 
+  function App () {
 
-import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom';
-function App() {
-  return (
-    <BrowserRouter>
-      <div className="wrapper">
-        <nav className="menu">
-          <NavLink className={({isActive}) => isActive ? "menuLinkActive" : ""} to="/">Main</NavLink>
-          <NavLink className={({isActive}) => isActive ? "menuLinkActive" : ""} to="/post">Post</NavLink>
+return (
+  <div className="wrapper">
+    <div className="list">
+      <h1>Product list</h1>
+      <Products />
+      <SaveList />
+    </div>
+    <LogIn />
+  </div> 
+  );
+}
 
-          <NavLink className={({isActive}) => isActive ? "menuLinkActive" : ""} to="/login">Login</NavLink>
-
-        </nav>
-        <Routes>
-        <Route path='/' element={<Main />} />
-          <Route path='/post' element={<Post/>} />
-          <Route path='/login' element={<Login/>} />
-          <Route path='/post/:id' element={<SinglePost />}/>
-          <Route path='*' element={<h1>Not Found</h1>} />
-        
-        </Routes>
-      </div>
-    </BrowserRouter>)}  
 export default App;
