@@ -9,6 +9,7 @@ const LogIn = () => {
     dispatchFunc({type: 'logIn'});
   };
   return (
+    
     !isLoggedIn && <form onSubmit={submit} >
       <label htmlFor="email">Email</label>
       <input id="email" name="email"/>

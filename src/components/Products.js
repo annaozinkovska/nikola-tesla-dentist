@@ -37,6 +37,7 @@ const Products = () => {
         <button onClick={decrementCoffee}>-</button>
         {isLoggedIn && <button onClick={increaseCoffee}>+10</button>}
       </div>
+      
       <div className={'product'}>
         <span>{`Sugar: ${sugar}`}</span>
         <button onClick={incrementSugar}>+</button>
@@ -47,4 +48,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Products;  

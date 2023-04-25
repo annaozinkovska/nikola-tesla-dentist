@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
+  "homepage": "https://annaozinkovska.github.io/nikola-tesla-dentist",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "watch": "cross-env NODE_ENV=development --mode development --watch",
     "start": "webpack serve --open --mode development",
-  "lint": "eslint -c .eslintrc.json --ext .js,.jsx .",
-      "lint:fix": "npm run lint -- --fix"
+    "lint": "eslint -c .eslintrc.json --ext .js,.jsx .",
+    "lint:fix": "npm run lint -- --fix",
     
+    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build"
   
+
   },
   "keywords": [],
   "author": "",
@@ -26,6 +30,7 @@
     "eslint": "^8.39.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-webpack-plugin": "^4.0.1",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.1",
     "sass": "^1.56.1",
